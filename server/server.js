@@ -24,3 +24,6 @@ app.listen(process.env.PORT, () => {
 
 // Connect to MongoDB database
 connectToDB();
+
+const authRoutes = require('./routes/auth.js');
+app.use('/api/auth/', authRoutes);

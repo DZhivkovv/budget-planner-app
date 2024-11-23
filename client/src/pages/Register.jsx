@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 import axios from 'axios';
 
 // Register component for user registration
@@ -12,8 +13,12 @@ const Register = () => {
   const [email, setEmail] = useState('');
   // State to store the password entered by the user
   const [password, setPassword] = useState('');
+  // Access the user context to determine if the user is already logged in
+  const {user} = useContext(UserContext); 
+
   // State to determine if the user should be redirected to a different route in the application. Initially set to false. This means no redirection is needed when the component mounts.  
   const [redirect, setRedirect] = useState(false);
+
 
   // Function to handle the registration form submission
   async function onRegister(event) {
@@ -41,6 +46,14 @@ const Register = () => {
     return <Navigate to="/login" replace/>
   }
 
+  // Check if the user is logged in.
+  if (user)
+  {
+    // The user is logged in.
+
+    // The user will be redirected to homepage
+    return <Navigate to='/' replace/>
+  }  
 
   return (
     <div>

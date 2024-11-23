@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import axios from 'axios';
 import { UserContext } from '../context/UserContext';
+import axios from 'axios';
 
 // Login component for user login
 const Login = () => {
@@ -9,8 +9,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   // State to store the password entered by the user
   const [password, setPassword] = useState('');
-  // Access the setUser function from the UserContext to update the global user state.
-  const {setUser} = useContext(UserContext)
+  // Access the setUser function from the UserContext to update the global user state and the user object to determine if the user is already logged in
+  const {user, setUser} = useContext(UserContext)
   
   // State to determine if the user should be redirected to a different route in the application. Initially set to false, which means no redirection is needed when the component mounts.    
   const [redirect, setRedirect] = useState(false);
@@ -40,6 +40,15 @@ const Login = () => {
   
       // The user gets redirected to the home page ('/').
       return <Navigate to="/" replace/>
+  }
+
+  // Check if the user is already logged in.
+  if (user)
+  {
+    // The user is already logged in.
+
+    // The user will be redirected to homepage
+    return <Navigate to='/' replace/>
   }
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 
 // Register component for user registration

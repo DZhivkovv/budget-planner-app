@@ -123,8 +123,37 @@ const retrieveUserData = async (req, res) => {
     }
 }
 
+
+// Controller function to logout authenticated user.
+const logoutUser = (req, res) => {
+    try {
+        // Check if token cookie exists
+        if (req.cookies.token) {
+            // Clear the token cookie
+            res.clearCookie('token', {
+                httpOnly: true, // Prevent JavaScript access
+                secure: process.env.NODE_ENV === 'production', // Secure only in production
+                sameSite: 'Strict', // Prevent CSRF
+            });
+
+            return res.status(200).json({ message: "User logged out successfully" });
+        } else {
+            // Handle the case where the token is not present
+            return res.status(400).json({
+                message: "No active session found.",
+            });
+        }
+    } catch (error) {
+        console.error("Error in logoutUser:", error);
+
+        return res.status(500).json({ error: "An internal server error occurred" });
+    }
+};
+
+
 module.exports = {
     registerUser,
     loginUser,
-    retrieveUserData
+    retrieveUserData,
+    logoutUser
 }

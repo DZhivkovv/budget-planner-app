@@ -97,7 +97,34 @@ const loginUser = async (req, res) => {
 };
 
 
+// Controller function to retrieve authenticated user data.
+const retrieveUserData = async (req, res) => {
+    // Retrieve the JSON Web Token (JWT) from the cookies sent with the request.
+    const token = req.cookies.token;
+    // Check if the token is missing.
+    if (!token) {
+        // If no token is found, respond with a null value ( no authenticated user ).
+        return res.json(null);
+    }
+
+    try
+    {
+        // Verify the JWT using the secret key and decode its payload.
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        // Extract the authenticated user data (firstName, lastName, and email) from the decoded token.
+        const {firstName, lastName, email} = decodedToken;
+        
+        // Respond with the user's information in JSON format.
+        return res.status(200).json({firstName, lastName, email});
+    } catch (error) {
+        // Handle invalid or expired tokens by logging the error and responding with null.
+        console.error("Error verifying token:", error);
+        return res.json(null);
+    }
+}
+
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    retrieveUserData
 }

@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext'
 import axios from 'axios';
-import { UserContext } from '../context/UserContext';
-
 // Login component for user login
 const Login = () => {
   // State to store the email entered by the user

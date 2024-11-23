@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import axios from 'axios';
 
 // Register component for user registration
 const Register = () => {
@@ -11,12 +12,35 @@ const Register = () => {
   const [email, setEmail] = useState('');
   // State to store the password entered by the user
   const [password, setPassword] = useState('');
+  // State to determine if the user should be redirected to a different route in the application. Initially set to false. This means no redirection is needed when the component mounts.  
+  const [redirect, setRedirect] = useState(false);
 
   // Function to handle the registration form submission
-  function onRegister(event) {
+  async function onRegister(event) {
     // Prevent the default form submission behavior
     event.preventDefault();
+  
+    // POST request to the '/api/auth/register' endpoint with user registration data (first name, last name, email and password).
+    await axios.post('/api/auth/register', {
+      firstName, 
+      lastName, 
+      email, 
+      password
+    });
+
+    // Trigger navigation to different route in the app.
+    setRedirect(true);
   }
+
+  // Check if the user should be redirected to different route in the app.
+  if (redirect)
+  {
+    // The user should be redirected to different route in the app.
+
+    // The user gets redirected to the login page.
+    return <Navigate to="/login" replace/>
+  }
+
 
   return (
     <div>
@@ -24,6 +48,7 @@ const Register = () => {
 
       {/* Registration form */}
       <form onSubmit={onRegister}>
+
         {/* Input field for the first name */}
         <div>
           <label>Име:</label>
@@ -39,7 +64,7 @@ const Register = () => {
 
         {/* Input field for the last name */}
         <div>
-          <label>Презиме:</label>
+          <label>Фамилия:</label>
           <input
             type="text"
             value={lastName}
@@ -82,7 +107,7 @@ const Register = () => {
         <button type="submit">Регистрирайте се</button>
       </form>
 
-      {/* Link to navigate to the login page if the user already has an account */}
+      {/* Link to navigate to the login page if the user already has an account in the app. */}
       <p>
         Вече имате акаунт? <Link to={'/login'}>Вход</Link>
       </p>

@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 import Login from './pages/Login';
 import Register from './pages/Register';
+
+// Import the configuration settings for the axios library.
+import './config/axios'
 
 import './App.css';
 
@@ -11,7 +13,7 @@ function App() {
     // Wrapping the application with BrowserRouter enables routing
     <BrowserRouter>
       
-      {/* All application routes */}
+      {/* All routes in the application */}
       <Routes>
         {/* Route for the Registration page, accessible at '/register' */}
         <Route element={<Register />} path='/register'></Route>

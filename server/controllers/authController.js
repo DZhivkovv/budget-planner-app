@@ -75,7 +75,7 @@ const loginUser = async (req, res) => {
     // The account with the provided email exists, and the provided password is valid.
     // Generate a JSON Web Token.
     const token = jwt.sign(
-        { email: user.email, id: user._id }, 
+        { email: user.email, firstName: user.firstName, lastName: user.lastName, id: user._id }, 
         process.env.JWT_SECRET,
         // Token expiration time set to 1 hour
         { expiresIn: '1h' }                 

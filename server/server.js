@@ -3,9 +3,10 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
-
 // Use middleware to parse JSON bodies from incoming requests.
 app.use(express.json());
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 const cors = require('cors');
 // Setup CORS to allow requests the frontend

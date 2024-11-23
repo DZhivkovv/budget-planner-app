@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 // Use middleware to parse JSON bodies from incoming requests.
 app.use(express.json());
+// Use cookie-parser middleware to access cookies in the request object.
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import axios from 'axios';
 
 // Login component for user login
 const Login = () => {
@@ -7,11 +8,32 @@ const Login = () => {
   const [email, setEmail] = useState('');
   // State to store the password entered by the user
   const [password, setPassword] = useState('');
+  // State to determine if the user should be redirected to a different route in the application. Initially set to false, which means no redirection is needed when the component mounts.    
+  const [redirect, setRedirect] = useState(false);
+
 
   // Function to handle the login form submission
   function onLogin(event) {
     // Prevent the default form submission behavior
     event.preventDefault();
+
+    // POST request to the '/api/auth/login' endpoint with user login data (email and password).
+    axios.post('/api/auth/login', {
+      email, 
+      password
+    })
+
+    // Trigger navigation to different route in the app.
+    setRedirect(true);
+  }
+
+  // Check if the user should be redirected to different route in the app.
+  if (redirect)
+    {
+      // The user should be redirected to different route in the app.
+  
+      // The user gets redirected to the home page ('/').
+      return <Navigate to="/" replace/>
   }
 
   return (

@@ -52,7 +52,52 @@ const registerUser = async (req, res) => {
 };
 
 
+// Controller function to handle user login
+const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body; // Extract user details from the request body
+
+        // Attempt to find a user in the database with the provided email.
+        const user = await User.findOne({ email });
+        // If no user is found, return a response with an error message.
+        if (!user) {
+            return res.status(401).json({ message: "Invalid email or password." });
+        }
+           
+        
+        // Compare the provided password with the hashed password stored in the database
+        const passwordsMatch = await bcrypt.compare(password, user.password);
+        // If the passwords do not match, return a response with an error message.
+        if (!passwordsMatch) {
+            return res.status(401).json({ message: "Invalid email or password." });
+        }
+
+    // The account with the provided email exists, and the provided password is valid.
+    // Generate a JSON Web Token.
+    const token = jwt.sign(
+        { email: user.email, id: user._id }, 
+        process.env.JWT_SECRET,
+        // Token expiration time set to 1 hour
+        { expiresIn: '1h' }                 
+    );
+
+    // Set the generated JWT as an HTTP-only cookie 
+    res
+        .cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' })
+        .status(200) // Send HTTP 200 OK status
+        .json({
+            message: "User authenticated successfully", 
+            user, // Return user details (excluding sensitive information) for client-side use
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "An error occurred during login." });
+    }
+};
+
 
 module.exports = {
     registerUser,
+    loginUser
 }

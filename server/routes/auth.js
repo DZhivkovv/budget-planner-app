@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router(); 
 
 // Import functions that handle the logic for user registration, login, retrieving user data and logout.
-const { registerUser, loginUser, retrieveUserData, logoutUser } = require('../controllers/authController'); 
+const { registerUser, loginUser, retrieveUserData, updateUserData, logoutUser } = require('../controllers/authController'); 
 
 // POST route for the '/register' endpoint. This route handles the user registration process.
 router.post('/register', registerUser); 
@@ -13,6 +13,8 @@ router.post('/login', loginUser);
 router.post('/logout', logoutUser); 
 // GET route for the '/user' endpoint. This route handles the retrievement of authenticated user data.
 router.get('/user', retrieveUserData); 
+// PATCH route for the '/user' endpoint. This route handles the retrievement of authenticated user data.
+router.patch('/user', updateUserData); 
 
 
 // Export the router instance so it can be used in other parts of the application.
